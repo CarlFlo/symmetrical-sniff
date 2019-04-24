@@ -1,9 +1,11 @@
-from QuerieFields import querieFields
+from UI import menu
 from os import system
 
-system("cls")
 
-qf = querieFields.QuerieFields()
+def main():
+    system("cls")
+    menu.menuLoop()
 
-for e in qf.getList():
-    print(e.query, e.desc)
+
+if __name__ == "__main__":
+    main()
