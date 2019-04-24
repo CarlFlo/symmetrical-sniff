@@ -1,11 +1,11 @@
-from field import Field
+from .field import Field
+
 
 class QuerieFields:
 
     def __init__(self):
         self.list = []
-        #self.__addToList__("create_cadastralUnit","... vid en angiven fastighetsbeteckning.")
-        oof = """create_cadastralUnit
+        _create = """create_cadastralUnit
 …vid en angiven fastighetsbeteckning.
 create_century
 …under ett angivet århundrade.
@@ -66,14 +66,13 @@ create_toPeriodName
 create_toTime
 …t.o.m. en angiven tid."""
 
-        lines = oof.splitlines()
+        lines = _create.splitlines()
 
-        for i in range(0,len(lines),2):
-            self.__addToList__(lines[i],lines[i+1])
-            
+        for i in range(0, len(lines), 2):
+            self.__addToList__(lines[i], lines[i+1])
 
     def __addToList__(self, query, desc):
-        self.list.append(Field(query,desc))
+        self.list.append(Field(query, desc))
 
     def getList(self):
         return self.list

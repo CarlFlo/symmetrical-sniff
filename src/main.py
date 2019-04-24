@@ -1,6 +1,9 @@
-from querieFields import QuerieFields
+from QuerieFields import querieFields
+from os import system
 
-qf = QuerieFields()
+system("cls")
+
+qf = querieFields.QuerieFields()
 
 for e in qf.getList():
     print(e.query, e.desc)
