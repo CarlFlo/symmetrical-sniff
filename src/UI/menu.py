@@ -65,7 +65,7 @@ def queryFieldBuilder():
 
         print("\n'-1' when done")
         try:
-            sel = int(input("Select index: "))
+            sel = int(input("Select field index: "))
 
             if sel < 0:  # Done. Exit loop
                 break
