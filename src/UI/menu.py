@@ -33,8 +33,24 @@ def parseCommand(x):
         'print': printer,
         'cls': clearScreen,
         'clear': clearScreen,
+        'show': show,
         'exit': killApp
     }.get(x, helper)
+
+
+def show(extra):
+    args = extra.split(" ")
+    if args[0] == "record":
+        dbShowRecord()
+    else:
+        print("""'record'
+        """)
+
+
+def dbShowRecord():
+    db = database.DB("databas.db")
+    db.dbShowRecord()
+    db.dbCloseConnection()
 
 
 def databasePlus(extra):
@@ -55,6 +71,7 @@ def helper(extra):
 Help: Get Help
 Build/b: Build a query
 db "reset/r": Clears and resets the database
+show "record": Displays the current item record
 """)
 
 
@@ -66,11 +83,14 @@ def doBuilder(extra):
     system("mode con:cols=80 lines=40")  # Changes window size
     fields = queryFieldBuilder()
 
-    networker = net.Networking()
-
-    networker.makeRequest(fields)
+    if len(fields) == 0:
+        print("Error: Nothing selected")
+        return
 
     # print(fields)
+    # return
+    networker = net.Networking()
+    networker.makeRequest(fields)
 
 
 def queryFieldBuilder():
@@ -94,15 +114,17 @@ def queryFieldBuilder():
             sel = input("Select field index: ").strip()  # Take input and remove spaces from start and end
 
             if sel == '':  # Check if only enter was pressed
+                # if len(selected) > 0:
                 break
 
             sel = int(sel)  # Turn into int
 
             if sel == -1:  # Toggle selected list
-                if len(selected) != len(_list):  # Add everything if not full
+                if len(selected) == 0:  # Add everything if empty /  != len(_list)
                     selected = []
                     selected.extend(range(len(_list)))
                 else:
+                    # Remove everything if list has items
                     selected = []
             else:
                 if sel in selected:  # Remove from list

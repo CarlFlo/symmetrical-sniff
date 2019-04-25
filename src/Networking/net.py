@@ -36,7 +36,7 @@ class Networking:
 
     def callGenerator(self, requiredRequests, queryURL):
 
-        for i in range(requiredRequests):
+        for i in range(self.DB.dbGetRecord(), requiredRequests):
             startRecord = i * self.hitsPerPage
 
             r = requests.get(queryURL + str(startRecord), headers=self.headers)
@@ -68,7 +68,8 @@ class Networking:
                 # self.DB.dbExecute("")
 
                 # yield item_to_yield
-            #print(((i/requiredRequests) * 100), "%", sep="")
-            system("title '{}/{} {}%'".format(i,requiredRequests,((i/requiredRequests) * 100)))
+            # print(((i/requiredRequests) * 100), "%", sep="")
+            system("title '{}/{} {}%'".format(i, requiredRequests, ((i / requiredRequests) * 100)))
+            self.DB.dbUpdateRecord(i)  # Updates record
             ## Commit to DB
             # self.DB.dbCommitInThread()
