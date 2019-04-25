@@ -34,8 +34,15 @@ def parseCommand(x):
         'cls': clearScreen,
         'clear': clearScreen,
         'show': show,
+        'set': set,
         'exit': killApp
     }.get(x, helper)
+
+
+def set(extra):
+    args = extra.split(" ")
+    if args[0] == "record":
+        dbSetRecord(args[1])
 
 
 def show(extra):
@@ -51,6 +58,17 @@ def dbShowRecord():
     db = database.DB("databas.db")
     db.dbShowRecord()
     db.dbCloseConnection()
+
+
+def dbSetRecord(newVal):
+    db = database.DB("databas.db")
+
+    try:
+        db.dbUpdateRecord(int(newVal))
+    except ValueError as e:
+        print("Could not cast '{}' to int: {}".format(newVal, e))
+    finally:
+        db.dbCloseConnection()
 
 
 def databasePlus(extra):
@@ -109,7 +127,7 @@ def queryFieldBuilder():
             print('{} {}: {}'.format(i, e.query, e.desc))
             print(bcolors.bcolors.ENDC, end="")
 
-        print("\nEnter when done, -1 to toogle everything")
+        print("\nEnter when done, -1 to toggle selections")
         try:
             sel = input("Select field index: ").strip()  # Take input and remove spaces from start and end
 
