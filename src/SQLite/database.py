@@ -39,7 +39,6 @@ class DB:
         return self._getConnection().cursor()
 
     def dbDropTable(self, tableName):
-        tableName = self._sanitize(tableName)
         self.dbExecute(str.format("drop table if exists {}", tableName))
         self.dbCommit()
 
@@ -57,17 +56,23 @@ class DB:
 
     def createTables(self):
 
-        tableName = "users"
+        ### items ###
         query = """
-        CREATE TABLE {}(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username varchar(16) unique,
-        password varchar(16),
-        fName varchar(8),
-        lName varchar(12),
-        age UNSIGNED TINYINT)""".format(tableName)
+        CREATE TABLE items(
+        id INTEGER PRIMARY KEY AUTOINCREMENT
+        )"""
 
-        self.dbDropTable(tableName)
+        self.dbDropTable("items")
+        self.dbExecute(query)
+
+        ### currentPage ###
+        query = """
+        CREATE TABLE currentPage(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        onPage UNSIGNED SMALLINT unique not null
+        )"""
+
+        self.dbDropTable("currentPage")
         self.dbExecute(query)
 
         self.dbCommit()

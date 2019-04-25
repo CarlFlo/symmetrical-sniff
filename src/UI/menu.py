@@ -1,8 +1,9 @@
-import sys, time
+import sys
 from os import system
 
 from Networking import net
 from QuerieFields import querieFields
+from SQLite import database
 from utils import bcolors
 
 
@@ -28,14 +29,33 @@ def parseCommand(x):
         '': None,
         'build': doBuilder,
         'b': doBuilder,
+        'db': databasePlus,
         'print': printer,
         'cls': clearScreen,
+        'clear': clearScreen,
         'exit': killApp
     }.get(x, helper)
 
 
+def databasePlus(extra):
+    args = extra.split(" ")
+    db = database.DB("databas.db")
+    if args[0] == 'reset' or args[0] == 'r':
+        db.createTables()
+        print("Database reset and cleared")
+    else:
+        print("Error: '{}' is not valid!".format(args[0]))
+
+    db.dbCloseConnection()
+
+
 def helper(extra):
-    print("\n## Commands ##\nHelp: Get Help\nbuild: Build a query")
+    print("""
+## Commands ##
+Help: Get Help
+Build/b: Build a query
+db "reset/r": Clears and resets the database
+""")
 
 
 def printer(extra):
@@ -45,7 +65,7 @@ def printer(extra):
 def doBuilder(extra):
     system("mode con:cols=80 lines=40")  # Changes window size
     fields = queryFieldBuilder()
-    
+
     networker = net.Networking()
 
     networker.makeRequest(fields)
@@ -78,7 +98,7 @@ def queryFieldBuilder():
 
             sel = int(sel)  # Turn into int
 
-            if sel == -1:  # Toggle selected
+            if sel == -1:  # Toggle selected list
                 if len(selected) != len(_list):  # Add everything if not full
                     selected = []
                     selected.extend(range(len(_list)))

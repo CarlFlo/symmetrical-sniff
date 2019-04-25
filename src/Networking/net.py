@@ -1,4 +1,5 @@
 import math
+from os import system
 
 import requests
 from SQLite import database
@@ -67,6 +68,7 @@ class Networking:
                 # self.DB.dbExecute("")
 
                 # yield item_to_yield
-            print(((i/requiredRequests) * 100), "%", sep="")
+            #print(((i/requiredRequests) * 100), "%", sep="")
+            system("title '{}/{} {}%'".format(i,requiredRequests,((i/requiredRequests) * 100)))
             ## Commit to DB
             # self.DB.dbCommitInThread()
