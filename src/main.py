@@ -1,5 +1,6 @@
-from UI import menu
 from os import system
+
+from UI import menu
 
 
 def main():

@@ -1,7 +1,9 @@
-from QuerieFields import querieFields
-from os import system
-from utils import bcolors
 import sys
+from os import system
+
+from Networking import net
+from QuerieFields import querieFields
+from utils import bcolors
 
 
 def menuLoop():
@@ -43,11 +45,15 @@ def printer(extra):
 def doBuilder(extra):
     system("mode con:cols=80 lines=40")  # Changes window size
     fields = queryFieldBuilder()
-    print(fields)
+
+    networker = net.Networking()
+
+    networker.call(fields)
+
+    # print(fields)
 
 
 def queryFieldBuilder():
-
     selected = []
 
     qf = querieFields.QuerieFields()
@@ -73,7 +79,7 @@ def queryFieldBuilder():
             if sel in selected:  # Remove from list
                 selected.remove(sel)
 
-            else:    # Add to list
+            else:  # Add to list
                 # Failsafe. only accept a valid index
                 if sel < len(_list):
                     selected.append(sel)

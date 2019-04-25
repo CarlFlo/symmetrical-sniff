@@ -16,7 +16,7 @@ create_fromTime
         lines = _fields.splitlines()
 
         for i in range(0, len(lines), 2):
-            self.__addToList__(lines[i], lines[i+1])
+            self.__addToList__(lines[i], lines[i + 1])
 
     def __addToList__(self, query, desc):
         self.list.append(Field(query, desc))
