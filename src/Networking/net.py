@@ -36,7 +36,7 @@ class Networking:
 
     def callGenerator(self, requiredRequests, queryURL):
 
-        for i in range(self.DB.dbGetRecord(), requiredRequests):
+        for i in range(self.DB.dbGetRecord(), requiredRequests):  # Checka om den kör den sista
             startRecord = i * self.hitsPerPage
 
             r = requests.get(queryURL + str(startRecord), headers=self.headers)

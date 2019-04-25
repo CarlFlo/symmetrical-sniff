@@ -9,6 +9,14 @@ class QuerieFields:
 thumbnail\n
 create_fromTime
 …fr.o.m. en angiven tid.
+create_fullName
+…av en person med angivet namn (förnamn + efternamn).
+create_nameAuth
+…av en person med namn enligt angiven personauktoritet.
+create_nameId
+…av en person med angiven id.
+create_organization
+…av en angiven organisation.
 """
 
         lines = _fields.splitlines()

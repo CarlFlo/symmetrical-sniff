@@ -92,7 +92,9 @@ class DB:
         query = """
         CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        itemId varchar(50) unique not null
+        itemId varchar(50) unique not null,
+        itemLabel varchar(50),
+        create_fromTime varchar(10)
         )"""
 
         self.dbDropTable("items")

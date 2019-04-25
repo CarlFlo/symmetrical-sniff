@@ -80,7 +80,7 @@ def printer(extra):
 
 
 def doBuilder(extra):
-    system("mode con:cols=80 lines=40")  # Changes window size
+    # system("mode con:cols=80 lines=40")  # Changes window size
     fields = queryFieldBuilder()
 
     if len(fields) == 0:
