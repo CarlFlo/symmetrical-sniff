@@ -1,4 +1,4 @@
-import sys
+import sys, time
 from os import system
 
 from Networking import net
@@ -45,10 +45,10 @@ def printer(extra):
 def doBuilder(extra):
     system("mode con:cols=80 lines=40")  # Changes window size
     fields = queryFieldBuilder()
-
+    
     networker = net.Networking()
 
-    networker.call(fields)
+    networker.makeRequest(fields)
 
     # print(fields)
 
@@ -69,20 +69,29 @@ def queryFieldBuilder():
             print('{} {}: {}'.format(i, e.query, e.desc))
             print(bcolors.bcolors.ENDC, end="")
 
-        print("\n'-1' when done")
+        print("\nEnter when done, -1 to toogle everything")
         try:
-            sel = int(input("Select field index: "))
+            sel = input("Select field index: ").strip()  # Take input and remove spaces from start and end
 
-            if sel < 0:  # Done. Exit loop
+            if sel == '':  # Check if only enter was pressed
                 break
 
-            if sel in selected:  # Remove from list
-                selected.remove(sel)
+            sel = int(sel)  # Turn into int
 
-            else:  # Add to list
-                # Failsafe. only accept a valid index
-                if sel < len(_list):
-                    selected.append(sel)
+            if sel == -1:  # Toggle selected
+                if len(selected) != len(_list):  # Add everything if not full
+                    selected = []
+                    selected.extend(range(len(_list)))
+                else:
+                    selected = []
+            else:
+                if sel in selected:  # Remove from list
+                    selected.remove(sel)
+
+                else:  # Add to list
+                    # Failsafe. only accept a valid index
+                    if sel < len(_list):
+                        selected.append(sel)
 
         except Exception:
             pass

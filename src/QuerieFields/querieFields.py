@@ -6,9 +6,9 @@ class QuerieFields:
     def __init__(self):
         self.list = []
         _fields = """itemLabel
-
+.
 thumbnail
-
+.
 create_fromTime
 …fr.o.m. en angiven tid.
 """
