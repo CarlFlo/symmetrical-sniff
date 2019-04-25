@@ -10,7 +10,6 @@ class Networking:
     query = 'itemType=foto AND thumbnailExists=j'
 
     def __init__(self):
-        print("networking on")
         pass
 
     def call(self, fields):
@@ -22,6 +21,8 @@ class Networking:
         # initial query to know how many results we get
         queryURL = '{}&query={}&fields={}&startRecord='.format(
             self.URLFields, self.query, fields)
+        
+        print("Requesting")
         r = requests.get(queryURL, headers=headers)
 
         json = r.json()
