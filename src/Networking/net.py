@@ -72,17 +72,17 @@ class Networking:
 
                 ### Kör query/lägg in data
                 query = QM.makeQuery()
-                print(query)
-                time.sleep(100)
+                self.DB.dbExecute(query)
+                # print(query)
 
             # Done with page
             # Visa användaren hur mycket som är gjort
-            progress = "'{}/{} {}%'".format(i, requiredRequests, ((i / requiredRequests) * 100),end="")
-            print(progress)
-            system("title", progress)
+            progress = "{}/{} {}%".format(i, requiredRequests, ((i / requiredRequests) * 100))
+            print(progress, end="")
+            system('title {}'.format(progress))
             self.DB.dbUpdateRecord(i)  # Updates record
 
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print(time.time() - start_time, " seconds to commit", sep="")
+            print(" ", time.time() - start_time, " seconds to commit", sep="")

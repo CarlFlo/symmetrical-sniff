@@ -49,7 +49,7 @@ class DB:
         try:
             cur.execute(query)
         except Exception:
-            pass
+            print("EXECUTE FAILED")
 
         return cur.fetchall()
 
@@ -88,32 +88,17 @@ class DB:
 
     def createTables(self):
 
-        # EXEMPEL PÅ QUERY
-        """
-        insert into items (itemId, itemLabel, create_fromTime) values (http://kulturarvsdata.se/raa/kmb/16000200041456, Marieby kyrkoruin, 1946)
-        """
-
-        ## ALLA SOM SKA MED
-        """itemLabel\n
-        create_fromTime
-        …fr.o.m. en angiven tid.
-        create_fullName
-        …av en person med angivet namn (förnamn + efternamn).
-        create_nameAuth
-        …av en person med namn enligt angiven personauktoritet.
-        create_nameId
-        …av en person med angiven id.
-        create_organization
-        …av en angiven organisation.
-        """
-
         ### items ###
         query = """
         CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        itemId varchar(50) unique not null,
+        itemId varchar(50) not null,
         itemLabel varchar(50),
-        create_fromTime varchar(10)
+        create_from Timevarchar(50),
+        create_fullName varchar(50),
+        create_nameAuth varchar(50),
+        create_nameId varchar(50),
+        create_organization varchar(50)
         )"""
 
         self.dbDropTable("items")
