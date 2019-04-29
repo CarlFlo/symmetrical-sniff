@@ -4,9 +4,8 @@ from .field import Field
 class QuerieFields:
 
     def __init__(self):
-        self.list = []
+        self.list = []  # thumbnail\n
         _fields = """itemLabel\n
-thumbnail\n
 create_fromTime
 …fr.o.m. en angiven tid.
 create_fullName

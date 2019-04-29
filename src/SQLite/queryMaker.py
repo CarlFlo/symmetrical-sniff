@@ -1,5 +1,5 @@
 
-class QueryMaker():
+class QueryMaker:
 
     def __init__(self):
         self.list = []
@@ -8,10 +8,16 @@ class QueryMaker():
         self.list.append(QueryObject(field, content))
 
     def getFieldsAsString(self):
-        pass
+        fieldsList = []
+        for e in self.list:
+            fieldsList.append(str(e.getField()))
+        return ', '.join(fieldsList)
 
     def getContentAsString(self):
-        pass
+        contentList = []
+        for e in self.list:
+            contentList.append(str(e.getContent()))
+        return ', '.join(contentList)
 
     # Makes query for the items database by default
     def makeQuery(self, tableName="items"):
@@ -22,6 +28,12 @@ class QueryMaker():
 
 class QueryObject:
 
-    def __init__(self, field, query):
+    def __init__(self, field, content):
         self.field = field
-        self.query = query
+        self.content = content
+
+    def getField(self):
+        return self.field
+
+    def getContent(self):
+        return self.content

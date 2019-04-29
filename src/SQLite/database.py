@@ -88,6 +88,25 @@ class DB:
 
     def createTables(self):
 
+        # EXEMPEL PÅ QUERY
+        """
+        insert into items (itemId, itemLabel, create_fromTime) values (http://kulturarvsdata.se/raa/kmb/16000200041456, Marieby kyrkoruin, 1946)
+        """
+
+        ## ALLA SOM SKA MED
+        """itemLabel\n
+        create_fromTime
+        …fr.o.m. en angiven tid.
+        create_fullName
+        …av en person med angivet namn (förnamn + efternamn).
+        create_nameAuth
+        …av en person med namn enligt angiven personauktoritet.
+        create_nameId
+        …av en person med angiven id.
+        create_organization
+        …av en angiven organisation.
+        """
+
         ### items ###
         query = """
         CREATE TABLE items(

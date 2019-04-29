@@ -2,7 +2,7 @@ import math, time, json
 from os import system
 
 import requests
-from SQLite import database
+from SQLite import database, queryMaker
 
 
 class Networking:
@@ -53,19 +53,27 @@ class Networking:
             for record in responseJSON['result']['records']['record']:
 
                 ### Skapa query
+                QM = queryMaker.QueryMaker()
 
                 # Itererar genom alla record's fields
                 for field in record['field']:
 
                     ## Lägg till sakerna i queriet, gör en lista object etc
 
-                    print(field['name'], ": ", end="", sep="")
+                    content = ""
                     try:
-                        print(field['content'])
+                        content = field['content']
                     except:
-                        print("null")
+                        content = "null"
+                    finally:
+                        # Add to query here
+                        # print(field['name'], ": ", content, end="", sep="")
+                        QM.add(field['name'], content)
 
                 ### Kör query/lägg in data
+                query = QM.makeQuery()
+                print(query)
+                time.sleep(100)
 
             # Done with page
             # Visa användaren hur mycket som är gjort
