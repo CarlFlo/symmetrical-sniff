@@ -41,6 +41,8 @@ class Networking:
 
     def callGenerator(self, requiredRequests, queryURL):
 
+        system("title Working...")
+
         startedTime = time.time()
         for i in range(self.DB.dbGetRecord(), requiredRequests):  # Checka om den kör den sista
             recordStartTime = time.time()
@@ -87,4 +89,4 @@ class Networking:
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print('. {} seconds to commit. This took {} seconds. ({} seconds in total.)'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime)), sep="")
+            print('. {} seconds to commit. This took {} seconds. ({} seconds in total)'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime)), sep="")
