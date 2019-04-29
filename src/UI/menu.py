@@ -73,7 +73,8 @@ def dbSetRecord(newVal):
 
 def databasePlus(extra):
     args = extra.split(" ")
-    db = database.DB("databas.db")
+    dbFile = "databas.db"
+    db = database.DB(dbFile)
     if args[0] == 'reset' or args[0] == 'r':
         db.createTables()
         print("Database reset and cleared")

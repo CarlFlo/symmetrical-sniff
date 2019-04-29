@@ -41,6 +41,7 @@ class Networking:
     def callGenerator(self, requiredRequests, queryURL):
 
         for i in range(self.DB.dbGetRecord(), requiredRequests):  # Checka om den kör den sista
+            recordStartTime = time.time()
             startRecord = i * self.hitsPerPage
 
             r = requests.get(queryURL + str(startRecord), headers=self.headers)
@@ -75,9 +76,8 @@ class Networking:
                 self.DB.dbExecute(query)
                 # print(query)
 
-            # Done with page
-            # Visa användaren hur mycket som är gjort
-            progress = "{}/{} {}%".format(i, requiredRequests, ((i / requiredRequests) * 100))
+            # Done with page. Display progress
+            progress = "{}/{} {}%".format(i, requiredRequests, '%.2g' % ((i / requiredRequests) * 100))
             print(progress, end="")
             system('title {}'.format(progress))
             self.DB.dbUpdateRecord(i)  # Updates record
@@ -85,4 +85,4 @@ class Networking:
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print(" ", time.time() - start_time, " seconds to commit", sep="")
+            print('. {} seconds to commit. {} seconds in total'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime)), sep="")

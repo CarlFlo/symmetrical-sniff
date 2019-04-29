@@ -1,5 +1,5 @@
 import sqlite3 as sql
-import threading
+import threading, time
 
 
 class DB:
@@ -48,8 +48,8 @@ class DB:
         cur = self._getCursor()
         try:
             cur.execute(query)
-        except Exception:
-            print("EXECUTE FAILED")
+        except Exception as e:
+            print("SQL EXECUTION FAILED!", query, e, sep="\n")
 
         return cur.fetchall()
 
@@ -98,6 +98,7 @@ class DB:
         create_fullName varchar(50),
         create_nameAuth varchar(50),
         create_nameId varchar(50),
+        create_fromTime varchar(50),
         create_organization varchar(50)
         )"""
 

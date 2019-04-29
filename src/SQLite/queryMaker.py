@@ -10,27 +10,29 @@ class QueryMaker:
     def getFieldsAsString(self):
         fieldsList = []
         for e in self.list:
-            fieldsList.append(str(e.getField()))
+            fieldsList.append(e.getField())
         return ', '.join(fieldsList)
 
     def getContentAsString(self):
         contentList = []
         for e in self.list:
-            contentList.append(str(e.getContent()))
+            contentList.append(e.getContent())
         return ', '.join(contentList)
 
     # Makes query for the items database by default
     def makeQuery(self, tableName="items"):
 
-        query = 'insert into {} ({}) values ({})'.format(tableName, self.getFieldsAsString(), self.getContentAsString())
+        query = 'INSERT INTO {} ({}) VALUES ({})'.format(tableName, self.getFieldsAsString(), self.getContentAsString())
         return query
 
 
 class QueryObject:
 
     def __init__(self, field, content):
-        self.field = field
-        self.content = content
+
+        content = str(content)  # Så att det är en string
+        self.field = str(field)
+        self.content = "\""+content.replace('"', "'")+"\""
 
     def getField(self):
         return self.field
