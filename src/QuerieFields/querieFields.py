@@ -18,8 +18,7 @@ create_organization
 …av en angiven organisation.
 """
 
-
-# TODO fixa licence också
+        # TODO fixa licence också
 
         lines = _fields.splitlines()
 

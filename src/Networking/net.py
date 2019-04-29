@@ -35,11 +35,13 @@ class Networking:
         totalResults = json['result']['totalHits']
         requiredRequests = math.ceil(totalResults / self.hitsPerPage)
 
-        print(requiredRequests, "requests required for fields:\n", fields)
+        #print(requiredRequests, "Requests required for fields:", fields, sep="\n")
+        print('{} Requests required for fields:\n{}'.format(requiredRequests, fields))
         self.callGenerator(requiredRequests, queryURL)
 
     def callGenerator(self, requiredRequests, queryURL):
 
+        startedTime = time.time()
         for i in range(self.DB.dbGetRecord(), requiredRequests):  # Checka om den kör den sista
             recordStartTime = time.time()
             startRecord = i * self.hitsPerPage
@@ -85,4 +87,4 @@ class Networking:
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print('. {} seconds to commit. {} seconds in total'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime)), sep="")
+            print('. {} seconds to commit. This took {} seconds. ({} seconds in total.)'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime)), sep="")

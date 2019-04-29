@@ -80,6 +80,7 @@ def databasePlus(extra):
         print("Database reset and cleared")
     else:
         print("Error: '{}' is not valid!".format(args[0]))
+        return
 
     db.dbCloseConnection()
 
