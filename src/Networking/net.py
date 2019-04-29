@@ -1,4 +1,4 @@
-import math
+import math, time, json
 from os import system
 
 import requests
@@ -17,6 +17,10 @@ class Networking:
 
     def __init__(self):
         self.DB = database.DB("databas.db")
+
+    def saveJSONToFile(self, jsonData):
+        with open('data.json', 'w') as json_file:
+            json.dump(jsonData, json_file)
 
     def makeRequest(self, fields):
 
@@ -42,34 +46,35 @@ class Networking:
             r = requests.get(queryURL + str(startRecord), headers=self.headers)
             responseJSON = r.json()
 
-            ### Albin's kod
+            # print(r.url)
+            # self.saveJSONToFile(responseJSON)  # Save to file. Debug
+
+            # Hämtar och går igenom alla resultat, record är en lista/array med fields
             for record in responseJSON['result']['records']['record']:
-                # sometimes there are empty records and those has no fields :-(
-                if not len(record) == 2:
-                    continue
 
-                item_to_yield = {}
+                ### Skapa query
 
-                # some fields can appear multiply times
-                # therefor we need to merge those to lists if needed
+                # Itererar genom alla record's fields
                 for field in record['field']:
-                    # if the field is already a list
-                    if isinstance(item_to_yield.get(field['name'], False), list):
-                        item_to_yield[field['name']].append(field['content'])
-                    # if it's not yet a list but we found the same field name/key again
-                    elif item_to_yield.get(field['name'], False):
-                        item_to_yield[field['name']] = list(
-                            [item_to_yield[field['name']], field['content']])
-                    # default to just a regular value
-                    else:
-                        item_to_yield[field['name']] = field['content']
 
-                ## Add to DB
-                # self.DB.dbExecute("")
+                    ## Lägg till sakerna i queriet, gör en lista object etc
 
-                # yield item_to_yield
-            # print(((i/requiredRequests) * 100), "%", sep="")
-            system("title '{}/{} {}%'".format(i, requiredRequests, ((i / requiredRequests) * 100)))
+                    print(field['name'], ": ", end="", sep="")
+                    try:
+                        print(field['content'])
+                    except:
+                        print("null")
+
+                ### Kör query/lägg in data
+
+            # Done with page
+            # Visa användaren hur mycket som är gjort
+            progress = "'{}/{} {}%'".format(i, requiredRequests, ((i / requiredRequests) * 100),end="")
+            print(progress)
+            system("title", progress)
             self.DB.dbUpdateRecord(i)  # Updates record
-            ## Commit to DB
-            # self.DB.dbCommitInThread()
+
+            # Commit to DB, and time it
+            start_time = time.time()
+            self.DB.dbCommit()
+            print(time.time() - start_time, " seconds to commit", sep="")

@@ -90,6 +90,7 @@ Help: Get Help
 Build/b: Build a query
 db "reset/r": Clears and resets the database
 show "record": Displays the current item record
+set "record": 
 """)
 
 
