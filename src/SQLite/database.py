@@ -101,6 +101,7 @@ class DB:
         mediaLicense varchar(50),
         byline varchar(50),
         serviceOrganization varchar(50),
+        thumbnail varchar(70),
         create_organization varchar(50)
         )"""
 

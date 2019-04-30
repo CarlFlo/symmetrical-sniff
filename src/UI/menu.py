@@ -130,7 +130,7 @@ def queryFieldBuilder():
             print('{} {}: {}'.format(i, e.query, e.desc))
             print(bcolors.bcolors.ENDC, end="")
 
-        print("\nEnter when done, -1 to toggle selections")
+        print("\n'Enter' when done, -1 to toggle selections")
         try:
             sel = input("Select field index: ").strip()  # Take input and remove spaces from start and end
 

@@ -21,6 +21,7 @@ Hitta objekt med angiven medialicens
 byline
 Hitta objekt med matchande byline
 serviceOrganization\n
+thumbnail\n
 create_organization
 …av en angiven organisation.
 """

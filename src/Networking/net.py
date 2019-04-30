@@ -3,6 +3,7 @@ from os import system
 
 import requests
 from SQLite import database, queryMaker
+from utils import bcolors
 
 
 class Networking:
@@ -91,15 +92,35 @@ class Networking:
                 self.DB.dbExecute(query)
                 # print(query)
 
-            totalSkipped += localSkipped
 
-            # Done with page. Display progress
-            progress = "{}/{} {}% Total skipped: {}".format(i, requiredRequests, '%.2g' % ((i / requiredRequests) * 100), totalSkipped)
-            print(progress, end="")
-            system('title {}'.format(progress))
+
+            # Done with page
+            totalSkipped += localSkipped
             self.DB.dbUpdateRecord(i+1)  # Updates record
 
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print('. {} ms to commit. This took {} seconds. ({} seconds in total) {} skipped'.format('%.2g' % ((time.time() - start_time)*1000), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime), localSkipped), sep="")
+
+            # Display progress
+            _commitMS = '%.2g' % ((time.time() - start_time) * 1000)  # Must be first to be accurate
+            _pctDone = '%.2g' % ((i / requiredRequests) * 100)
+            _progress = '{}/{}'.format(i, requiredRequests)
+            _left = requiredRequests-i
+            _skipped = localSkipped
+            _tookSecInt = time.time() - recordStartTime
+            _tookSec = '%.2g' % _tookSecInt
+            _durationSec = int(time.time()-startedTime)
+            _durationMin = '%.2g' % (_durationSec/60)
+            _durationH = '%.2g' % (_durationSec/60/60)
+
+            _estSec = _left*_tookSecInt
+            _estMin = '%.2g' % (_estSec/60)
+            _estH = '%.2g' % (_estSec/60/60)
+
+            progress = "{} {}% Total skipped: {} Estemated: {} Hours, {} Min".format(_progress, _pctDone, totalSkipped, _estH, _estMin)
+            system('title {}'.format(progress))
+
+            print('{}% {} ({}). Skipped: {}. SQL: {} ms.\tThis took {} sec. Duration: {} h, {} min, {} sec'.format(_pctDone, _progress, _left, _skipped, _commitMS, _tookSec, _durationH, _durationMin, _durationSec))
+
+        print('\n\n{}Done!{}'.format(bcolors.bcolors.OKGREEN, bcolors.bcolors.ENDC))
