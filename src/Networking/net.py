@@ -36,7 +36,6 @@ class Networking:
         totalResults = json['result']['totalHits']
         requiredRequests = math.ceil(totalResults / self.hitsPerPage)
 
-        #print(requiredRequests, "Requests required for fields:", fields, sep="\n")
         print('{} Requests required for fields:\n{}'.format(requiredRequests, fields))
         self.callGenerator(requiredRequests, queryURL)
 
@@ -68,20 +67,19 @@ class Networking:
                 # Itererar genom alla record's fields
                 for fi, field in enumerate(record['field']):
 
-                    ## Lägg till sakerna i queriet, gör en lista object etc
+                    # Lägg till sakerna i queriet, gör en lista object etc
 
                     content = ""
                     try:
                         content = field['content']
                     except:
-                        # content = "null"
-                        allGood = False
+                        allGood = False  # Something is very wrong
                         break
 
                     # Add to query here
                     QM.add(field['name'], content)
 
-                ### Kör query/lägg in data
+                # Kör query/lägg in data
 
                 # Något är fel med fältet så hoppa över den
                 if not allGood:
