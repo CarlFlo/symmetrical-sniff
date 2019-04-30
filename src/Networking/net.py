@@ -90,8 +90,6 @@ class Networking:
 
                 query = QM.makeQuery()
                 self.DB.dbExecute(query)
-                # print(query)
-
 
             # Done with page
             totalSkipped += localSkipped
