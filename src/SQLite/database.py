@@ -58,7 +58,6 @@ class DB:
     def dbUpdateRecord(self, newValue):
         cur = self._getCursor()
         cur.execute('UPDATE currentRecord SET record = {} where id = 1'.format(newValue))
-        self.dbCommit()
 
     def dbGetRecord(self):
         cur = self._getCursor()
@@ -99,6 +98,9 @@ class DB:
         create_nameAuth varchar(50),
         create_nameId varchar(50),
         create_fromTime varchar(50),
+        mediaLicense varchar(50),
+        byline varchar(50),
+        serviceOrganization varchar(50),
         create_organization varchar(50)
         )"""
 

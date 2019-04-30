@@ -42,11 +42,13 @@ class Networking:
     def callGenerator(self, requiredRequests, queryURL):
 
         system("title Working...")
+        totalSkipped = 0
 
         startedTime = time.time()
         for i in range(self.DB.dbGetRecord(), requiredRequests):  # Checka om den kör den sista
             recordStartTime = time.time()
             startRecord = i * self.hitsPerPage
+            localSkipped = 0
 
             r = requests.get(queryURL + str(startRecord), headers=self.headers)
             responseJSON = r.json()
@@ -55,13 +57,15 @@ class Networking:
             # self.saveJSONToFile(responseJSON)  # Save to file. Debug
 
             # Hämtar och går igenom alla resultat, record är en lista/array med fields
-            for record in responseJSON['result']['records']['record']:
+            for j, record in enumerate(responseJSON['result']['records']['record']):
+
 
                 ### Skapa query
                 QM = queryMaker.QueryMaker()
+                allGood = True
 
                 # Itererar genom alla record's fields
-                for field in record['field']:
+                for fi, field in enumerate(record['field']):
 
                     ## Lägg till sakerna i queriet, gör en lista object etc
 
@@ -69,24 +73,33 @@ class Networking:
                     try:
                         content = field['content']
                     except:
-                        content = "null"
-                    finally:
-                        # Add to query here
-                        # print(field['name'], ": ", content, end="", sep="")
-                        QM.add(field['name'], content)
+                        # content = "null"
+                        allGood = False
+                        break
+
+                    # Add to query here
+                    QM.add(field['name'], content)
 
                 ### Kör query/lägg in data
+
+                # Något är fel med fältet så hoppa över den
+                if not allGood:
+                    localSkipped += 1
+                    continue
+
                 query = QM.makeQuery()
                 self.DB.dbExecute(query)
                 # print(query)
 
+            totalSkipped += localSkipped
+
             # Done with page. Display progress
-            progress = "{}/{} {}%".format(i, requiredRequests, '%.2g' % ((i / requiredRequests) * 100))
+            progress = "{}/{} {}% Total skipped: {}".format(i, requiredRequests, '%.2g' % ((i / requiredRequests) * 100), totalSkipped)
             print(progress, end="")
             system('title {}'.format(progress))
-            self.DB.dbUpdateRecord(i)  # Updates record
+            self.DB.dbUpdateRecord(i+1)  # Updates record
 
             # Commit to DB, and time it
             start_time = time.time()
             self.DB.dbCommit()
-            print('. {} seconds to commit. This took {} seconds. ({} seconds in total)'.format('%.2g' % (time.time() - start_time), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime)), sep="")
+            print('. {} ms to commit. This took {} seconds. ({} seconds in total) {} skipped'.format('%.2g' % ((time.time() - start_time)*1000), '%.2g' % (time.time()-recordStartTime), '%.2g' % (time.time()-startedTime), localSkipped), sep="")

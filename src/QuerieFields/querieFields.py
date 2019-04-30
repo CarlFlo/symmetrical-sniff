@@ -16,9 +16,14 @@ create_nameId
 …av en person med angiven id.
 create_organization
 …av en angiven organisation.
+mediaLicense
+Hitta objekt med angiven medialicens
+byline
+Hitta objekt med matchande byline
+serviceOrganization\n
+create_organization
+…av en angiven organisation.
 """
-
-        # TODO fixa licence också
 
         lines = _fields.splitlines()
 
