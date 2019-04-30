@@ -93,7 +93,6 @@ class Networking:
                 # print(query)
 
 
-
             # Done with page
             totalSkipped += localSkipped
             self.DB.dbUpdateRecord(i+1)  # Updates record
@@ -104,7 +103,7 @@ class Networking:
 
             # Display progress
             _commitMS = '%.2g' % ((time.time() - start_time) * 1000)  # Must be first to be accurate
-            _pctDone = '%.2g' % ((i / requiredRequests) * 100)
+            _pctDone = '%.2g' % ((i / requiredRequests) * 100) # Bug. Gets weird when on 99%+ (1e+123) <-
             _progress = '{}/{}'.format(i, requiredRequests)
             _left = requiredRequests-i
             _skipped = localSkipped
