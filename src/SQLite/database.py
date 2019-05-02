@@ -1,5 +1,4 @@
 import sqlite3 as sql
-import threading, time
 
 
 class DB:
@@ -21,9 +20,6 @@ class DB:
 
     def dbCommit(self):
         self._getConnection().commit()
-
-    def dbCommitInThread(self):
-        threading.Thread(target=self.dbCommit).start()
 
     def getVersion(self):
         cur = self._getCursor()
@@ -115,10 +111,9 @@ class DB:
         record UNSIGNED SMALLINT unique not null
         )"""
 
-        self.dbDropTable("currentRecord")
+        self.dbDropTable('currentRecord')
         self.dbExecute(query)
 
         # Adds default value
-        self.dbExecute("insert into currentRecord (record) values (0)")
-
+        self.dbExecute('insert into currentRecord (record) values (0)')
         self.dbCommit()

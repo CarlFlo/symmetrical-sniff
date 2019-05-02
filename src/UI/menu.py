@@ -1,7 +1,7 @@
 import sys
 from os import system
 
-from Networking import net
+from Networking import net, multiNet
 from QuerieFields import querieFields
 from SQLite import database
 from utils import bcolors
@@ -101,17 +101,24 @@ def printer(extra):
 
 
 def doBuilder(extra):
-    # system("mode con:cols=80 lines=40")  # Changes window size
+
+    if len(extra) > 0:
+        system('title Using multiprocessing')
+    else:
+        system('title Normal mode')
+
     fields = queryFieldBuilder()
 
     if len(fields) == 0:
         print("Error: Nothing selected")
         return
 
-    # print(fields)
-    # return
-    networker = net.Networking()
-    networker.makeRequest(fields)
+    if len(extra) > 0:
+        networkerMulti = multiNet.MultiprocessingNetworking()
+        networkerMulti.makeRequest(fields)
+    else:
+        networker = net.Networking()
+        networker.makeRequest(fields)
 
 
 def queryFieldBuilder():

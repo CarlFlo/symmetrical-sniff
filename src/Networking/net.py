@@ -1,4 +1,6 @@
-import math, time, json
+import math
+import time
+import json
 from os import system
 
 import requests
@@ -7,6 +9,7 @@ from utils import bcolors
 
 
 class Networking:
+
     hitsPerPage = 500  # Default 500
     URL = 'http://www.kulturarvsdata.se/ksamsok/api'
     URLFields = '{}?&x-api=test&method=search&hitsPerPage={}&recordSchema=xml'.format(URL, hitsPerPage)
@@ -29,18 +32,18 @@ class Networking:
         queryURL = '{}&query={}&fields={}&startRecord='.format(
             self.URLFields, self.query, fields)
 
-        print("Requesting")
+        print("# Requesting")
         r = requests.get(queryURL, headers=self.headers)
 
         json = r.json()
         totalResults = json['result']['totalHits']
         requiredRequests = math.ceil(totalResults / self.hitsPerPage)
 
-        print('{} Requests required for fields:\n{}'.format(requiredRequests, fields))
+        print('# {} Requests required'.format(requiredRequests))
+        # print('# {} Requests required for fields:\n{}'.format(requiredRequests, fields))
         self.callGenerator(requiredRequests, queryURL)
 
     def callGenerator(self, requiredRequests, queryURL):
-
         system("title Working...")
         totalSkipped = 0
 
@@ -60,7 +63,7 @@ class Networking:
             for j, record in enumerate(responseJSON['result']['records']['record']):
 
 
-                ### Skapa query
+                # Skapa query
                 QM = queryMaker.QueryMaker()
                 allGood = True
 
@@ -99,7 +102,7 @@ class Networking:
 
             # Display progress
             _commitMS = '%.2g' % ((time.time() - start_time) * 1000)  # Must be first to be accurate
-            _pctDone = '%.2g' % ((i / requiredRequests) * 100) # Bug. Gets weird when on 99%+ (1e+123) <-
+            _pctDone = '%.2g' % ((i / requiredRequests) * 100)  # Bug. Gets weird when on 99%+ (1e+123) <-
             _progress = '{}/{}'.format(i, requiredRequests)
             _left = requiredRequests-i
             _skipped = localSkipped
