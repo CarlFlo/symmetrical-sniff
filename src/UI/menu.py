@@ -29,6 +29,7 @@ def parseCommand(x):
         '': None,
         'build': doBuilder,
         'b': doBuilder,
+        'bm': doBuilderMultiprocessing,
         'db': databasePlus,
         'print': printer,
         'cls': clearScreen,
@@ -89,7 +90,8 @@ def helper(extra):
     print("""
 ## Commands ##
 Help: Get Help
-Build/b: Build a query
+Build/b: Build a query (Slower but can be resumed)
+bm: Build a query with multiprocessing (Faster but can't be resumed)
 db "reset/r": Clears and resets the database
 show "record": Displays the current item record
 set "record": 
@@ -100,12 +102,8 @@ def printer(extra):
     print(extra)
 
 
-def doBuilder(extra):
-
-    if len(extra) > 0:
-        system('title Using multiprocessing')
-    else:
-        system('title Normal mode')
+def doBuilderMultiprocessing(extra):
+    system('title Using multiprocessing')
 
     fields = queryFieldBuilder()
 
@@ -113,10 +111,20 @@ def doBuilder(extra):
         print("Error: Nothing selected")
         return
 
-    if len(extra) > 0:
-        networkerMulti = multiNet.MultiprocessingNetworking()
-        networkerMulti.makeRequest(fields)
-    else:
+    networkerMulti = multiNet.MultiprocessingNetworking()
+    networkerMulti.makeRequest(fields)
+
+
+def doBuilder(extra):
+
+    system('title Normal mode')
+
+    fields = queryFieldBuilder()
+
+    if len(fields) == 0:
+        print("Error: Nothing selected")
+        return
+
         networker = net.Networking()
         networker.makeRequest(fields)
 

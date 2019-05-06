@@ -32,7 +32,7 @@ class QueryObject:
 
         content = str(content)  # Så att det är en string
         self.field = str(field)
-        self.content = "\""+content.replace('"', "'")+"\""
+        self.content = "\""+content.replace('"', "'")+"\""  # Lägger till "" tecken så att sql vet att den är en sträng
 
     def getField(self):
         return self.field
