@@ -2,6 +2,7 @@ import math
 import time
 import json
 from os import system
+import datetime
 
 import requests
 from SQLite import multiDatabase, queryMaker
@@ -14,6 +15,8 @@ class MultiprocessingNetworking:
     # Multiprocessing
     tCurrentDone = 0
     tLastPrint = time.time()
+    maxPool = 15
+    updateEverySec = 2
 
     # Default
     hitsPerPage = 500  # Default 500
@@ -45,7 +48,7 @@ class MultiprocessingNetworking:
 
     # multiprocessing
     def threadingMaster(self, rr, queryURL):
-        system("title Working multiprocessing...")
+        system('title Working multiprocessing... Pool: {}'.format(self.maxPool))
 
         # Setup
         print("## Remeber to remove DB file before running ##")
@@ -54,12 +57,12 @@ class MultiprocessingNetworking:
 
         # Gör URL:en global
         self.queryURL = queryURL
-        self.rr = rr
+        self.rr = rr  # Request Required. Så requests som behöver göras
 
         indexes = range(rr + 1)
-        pool = Pool(4)
-        print("# Multiprocessing starting")
-        startTime = time.time()
+        pool = Pool(self.maxPool)
+        print('# Multiprocessing starting (Pool: {})'.format(self.maxPool))
+        self.startTime = time.time()
         pool.map(self.worker, indexes)  # Skapar alla jobb
 
         pool.close()
@@ -108,9 +111,14 @@ class MultiprocessingNetworking:
         self.tCurrentDone += 1
 
         # Prog
-        if (time.time() - self.tLastPrint) > 2:
+        if (time.time() - self.tLastPrint) > self.updateEverySec:
             self.tLastPrint = time.time()
+
             proc = '%.2g' % ((self.tCurrentDone / self.rr) * 100)
             timePassed = time.time() - self.startTime
+            PrettyTimePassed = str(datetime.timedelta(seconds=int(timePassed)))
 
-            print('{}% - {} seconds'.format(proc, timePassed))
+            timeLeftSec = (timePassed / self.tCurrentDone) * self.rr
+            PrettyTimeLeft = str(datetime.timedelta(seconds=int(timeLeftSec)))
+
+            print('{}%\tDuration: {} | Left: {}'.format(proc, PrettyTimePassed, PrettyTimeLeft))
