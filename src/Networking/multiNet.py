@@ -15,7 +15,7 @@ class MultiprocessingNetworking:
     # Multiprocessing
     tCurrentDone = 0
     tLastPrint = time.time()  # Used to limit the amount of prints that get sent to cmd
-    maxPool = 25  # Keep low! Each will make a request to the server simultaneously (default 10) More does not = faster!
+    maxPool = 4  # Keep low! Each will make a request to the server simultaneously (default 4) More does not = faster!
     updateEverySec = 2  # How the minumum wait time in sec the program will wait to print out it's progress
 
     # Default
