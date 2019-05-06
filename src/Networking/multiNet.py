@@ -1,8 +1,8 @@
 import math
 import time
-import json
 from os import system
 import datetime
+from pathlib import Path
 
 import requests
 from SQLite import multiDatabase, queryMaker
@@ -14,9 +14,9 @@ class MultiprocessingNetworking:
 
     # Multiprocessing
     tCurrentDone = 0
-    tLastPrint = time.time()
-    maxPool = 15
-    updateEverySec = 2
+    tLastPrint = time.time()  # Used to limit the amount of prints that get sent to cmd
+    maxPool = 25  # Keep low! Each will make a request to the server simultaneously (default 10) More does not = faster!
+    updateEverySec = 2  # How the minumum wait time in sec the program will wait to print out it's progress
 
     # Default
     hitsPerPage = 500  # Default 500
@@ -51,8 +51,10 @@ class MultiprocessingNetworking:
         system('title Working multiprocessing... Pool: {}'.format(self.maxPool))
 
         # Setup
-        print("## Remeber to remove DB file before running ##")
-        input("Press Enter to continue...")
+        my_file = Path("databas.db")
+        if my_file.is_file():
+            print("## Remeber to remove DB file before running (databas.db) multiprocessing can't resume (yet) ##")
+            input("Press Enter to continue...")
         multiDatabase.MultiDatabase().setup()
 
         # Gör URL:en global
@@ -97,20 +99,19 @@ class MultiprocessingNetworking:
                 # Add to query here
                 QM.add(field['name'], content)
 
-            # Kör query/lägg in data
-
             # Något är fel med fältet så hoppa över den
             if not allGood:
                 continue
 
-            query = QM.makeQuery()
-            db.executeQuery(query)
+            # Kör query/lägg in data
+            query = QM.makeQuery()  # Skapar ett query från alla fält
+            db.executeQuery(query)  # Kör queriet
 
         # Done with page
-        db.executeDone()
+        db.executeDone()  # Closes the connection and commits data to DB
         self.tCurrentDone += 1
 
-        # Prog
+        # Displays progress after a minimum time as elapsed
         if (time.time() - self.tLastPrint) > self.updateEverySec:
             self.tLastPrint = time.time()
 
