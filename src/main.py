@@ -9,6 +9,7 @@ def main():
 
     menu.menuLoop()
 
+
 def linkMaker():
     # Denna metod gör om ett itemID till en fungerade kringla länk
 

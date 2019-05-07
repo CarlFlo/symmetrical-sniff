@@ -5,7 +5,7 @@ class QuerieFields:
 
     def __init__(self):
         self.list = []  # thumbnail\n
-        _fields = """itemLabel\n
+        lines = """itemLabel\n
 create_fromTime
 …fr.o.m. en angiven tid.
 create_fullName
@@ -24,9 +24,7 @@ serviceOrganization\n
 thumbnail\n
 create_organization
 …av en angiven organisation.
-"""
-
-        lines = _fields.splitlines()
+""".splitlines()
 
         for i in range(0, len(lines), 2):
             self.__addToList__(lines[i], lines[i + 1])

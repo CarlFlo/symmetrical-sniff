@@ -89,7 +89,6 @@ class DB:
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         itemId varchar(50) not null,
         itemLabel varchar(50),
-        create_from Timevarchar(50),
         create_fullName varchar(50),
         create_nameAuth varchar(50),
         create_nameId varchar(50),
