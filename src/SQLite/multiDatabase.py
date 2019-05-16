@@ -41,6 +41,7 @@ class MultiDatabase:
         self.executeQuery('drop table if exists items')
         self.executeQuery(query)
 
+        # Not used for multiprocessing
         query = """
                 CREATE TABLE currentRecord(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,5 +51,6 @@ class MultiDatabase:
         self.executeQuery(query)
 
         self.executeQuery('insert into currentRecord (record) values (0)')
+        #
 
         self.executeDone()

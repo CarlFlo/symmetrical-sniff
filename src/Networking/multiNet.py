@@ -122,4 +122,4 @@ class MultiprocessingNetworking:
             timeLeftSec = (timePassed / self.tCurrentDone) * self.rr
             PrettyTimeLeft = str(datetime.timedelta(seconds=int(timeLeftSec)))
 
-            print('{}%\tDuration: {} | Left: {}'.format(proc, PrettyTimePassed, PrettyTimeLeft))
+            print('{}%\tDuration: {} | ETA: {}'.format(proc, PrettyTimePassed, PrettyTimeLeft))

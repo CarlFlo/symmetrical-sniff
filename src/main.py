@@ -24,3 +24,4 @@ def kringla_link_maker(item_id='http://kulturarvsdata.se/raa/kmb/16000200041456'
 if __name__ == "__main__":
     # linkMaker()
     main()
+
