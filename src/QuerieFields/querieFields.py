@@ -7,15 +7,15 @@ class QuerieFields:
         self.list = []  # thumbnail\n
         lines = """itemLabel\n
 create_fromTime
-…fr.o.m. en angiven tid.
+fr.o.m. en angiven tid.
 create_fullName
-…av en person med angivet namn (förnamn + efternamn).
+av en person med angivet namn (förnamn + efternamn).
 create_nameAuth
-…av en person med namn enligt angiven personauktoritet.
+av en person med namn enligt angiven personauktoritet.
 create_nameId
-…av en person med angiven id.
+av en person med angiven id.
 create_organization
-…av en angiven organisation.
+av en angiven organisation.
 mediaLicense
 Hitta objekt med angiven medialicens
 byline
@@ -23,7 +23,7 @@ Hitta objekt med matchande byline
 serviceOrganization\n
 thumbnail\n
 create_organization
-…av en angiven organisation.
+av en angiven organisation.
 """.splitlines()
 
         for i in range(0, len(lines), 2):
